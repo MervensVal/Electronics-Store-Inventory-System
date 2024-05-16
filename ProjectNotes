@@ -71,3 +71,30 @@ a handful of accented letters, and a few others (like € and —). Your applica
 
 *NVARCHAR — Data is stored in a Unicode encoding. Every language is supported. A Good Idea. ll modern operating systems and development platforms use Unicode internally. By using nvarchar rather than varchar, 
 you can avoid doing encoding conversions every time you read from or write to the database. 
+
+------------------------------------------
+
+Project Template/Features
+
+- Category, Location, and Contact Table will be seeded via sql query
+- Log folder is created
+- Report Folder is created
+- Archive Folder
+
+- Product Table will have data that is imported
+- Product Data starts off in a text file
+- Text file data is imported into an excel file
+- If successful the file is placed in Archive
+- Success/Failure Log data is stored in Log file
+- Import data into database
+- Success/Failure Log data is stored in Log file
+
+- Generate Report1 with full product information
+- Success/Failure Log data is stored in Log file
+- Generate Report2 with count seperated by category
+- Success/Failure Log data is stored in Log file
+
+- Generate PDF
+- Create Executable file
+
+
