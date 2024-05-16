@@ -57,7 +57,7 @@ else
 		('111-111-1111','one@email.com','LOC'),
 		('222-222-2222','two@email.com','LOC'),
 		('333-333-3333','three@email.com','EMP'),
-		('444-444-4444','four@email.com','LOC')
+		('444-444-4444','four@email.com','LOC'),
 		('555-555-5555','five@email.com','EMP')
 	end
 --'''
@@ -98,7 +98,7 @@ else
 		insert into Location ('ContactID','StreetName','Unit','City','State','Country','ZipCode') values
 		(1003, '123 A Street','Apt 1','Miami','Florida','United States','33333'),
 		(1002, '315 B Street','','Los Angeles','California','United States','55555'),
-		(1004, '789 C Street','','Nashville','Tenessee','United States','77777')
+		(1004, '789 C Street','','Nashville','Tenessee','United States','77777'),
 		(1001, '315 B Street','','Los Angeles','California','United States','55555'),
 		(1000, '789 C Street','','Nashville','Tenessee','United States','77777')
 	end
