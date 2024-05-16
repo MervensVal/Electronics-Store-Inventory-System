@@ -93,4 +93,15 @@ Project Template/Features
 - Generate PDF
 - Create Executable file
 
+------------------------------------------
+decimal [(p [,s])]
 
+Where,
+
+p stands for Precision, the total number of digits in the value, i.e. on both sides of the decimal point
+s stands for Scale, number of digits after the decimal point
+The default value of p is 18 and s is 0 and for both these values, the minimum is 1 and the maximum is 38.
+
+In short, by defining parameters in the SQL Decimal data type, we are estimating how many digits a column or a variable will have and also the number of digits to the right of the decimal point.
+
+For instance, decimal (4,2) indicates that the number will have 2 digits before the decimal point and 2 digits after the decimal point, something like this has to be the number value- ##.##.
