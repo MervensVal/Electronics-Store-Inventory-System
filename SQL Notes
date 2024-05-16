@@ -20,6 +20,71 @@ else
 end
 
 ------------------------------------------------------------------
+/*
+Contact Table
+ContactID
+Phone
+Email
+Fax
+ContactType (Store, Employee, Etc)
+*/
+
+if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Contact'))
+	begin
+		print 'table already exists'
+	end
+else
+	begin
+		print 'creating table Contact'
+		use ElectronicsStore
+		create table Contact(			
+			ContactID int identity(1000,1) primary key not null,
+			Phone nvarchar(40)
+			Email nvarchar(40)
+			Fax nvarchar(40)
+			ContactType nvarchar(40)
+		)
+end
+
+------------------------------------------------------------------
+
+/*
+Location Table
+LocationID
+*ManagerID
+*ContactID
+StreetName
+Unit
+City
+State
+Country
+Zip Code
+*/
+
+if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Location'))
+	begin
+		print 'table already exists'
+	end
+else
+	begin
+		print 'creating table Location'
+		use ElectronicsStore
+		create table Location(			
+			LocationID int identity(1000,1) primary key not null,
+			ManagerName nvarchar(40)
+			ManagerEmail nvarchar(40)
+			ContactID int foreign key references Contact(ContactID)
+			StreetName nvarchar(100)
+			Unit nvarchar(10)
+			City nvarchar(100)
+			State nvarchar(40)
+			Country nvarchar(100)
+			ZipCode nvarchar(10)
+		)
+end
+
+
+------------------------------------------------------------------
 
 /*
 Product Table
@@ -60,65 +125,4 @@ else
 end
 
 
-------------------------------------------------------------------
-/*
-Location Table
-LocationID
-*ManagerID
-*ContactID
-StreetName
-Unit
-City
-State
-Country
-Zip Code
-*/
 
-if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Location'))
-	begin
-		print 'table already exists'
-	end
-else
-	begin
-		print 'creating table Location'
-		use ElectronicsStore
-		create table Location(			
-			LocationID int identity(1000,1) primary key not null,
-			ManagerName nvarchar(40)
-			ManagerEmail nvarchar(40)
-			ContactID int foreign key references Contact(ContactID)
-			StreetName nvarchar(100)
-			Unit nvarchar(10)
-			City nvarchar(100)
-			State nvarchar(40)
-			Country nvarchar(100)
-			ZipCode nvarchar(10)
-		)
-end
-------------------------------------------------------------------
-
-/*
-Contact Table
-ContactID
-Phone
-Email
-Fax
-ContactType (Store, Employee, Etc)
-*/
-
-if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Contact'))
-	begin
-		print 'table already exists'
-	end
-else
-	begin
-		print 'creating table Contact'
-		use ElectronicsStore
-		create table Contact(			
-			ContactID int identity(1000,1) primary key not null,
-			Phone nvarchar(40)
-			Email nvarchar(40)
-			Fax nvarchar(40)
-			ContactType nvarchar(40)
-		)
-end
