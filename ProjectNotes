@@ -105,3 +105,18 @@ The default value of p is 18 and s is 0 and for both these values, the minimum i
 In short, by defining parameters in the SQL Decimal data type, we are estimating how many digits a column or a variable will have and also the number of digits to the right of the decimal point.
 
 For instance, decimal (4,2) indicates that the number will have 2 digits before the decimal point and 2 digits after the decimal point, something like this has to be the number value- ##.##.
+
+Here, 'precision' refers to the total number of digits, and 'scale' refers to the number of digits after the decimal point.
+
+Usage of DECIMAL and NUMERIC Data Types
+In SQL, DECIMAL and NUMERIC data types are used when the exactness of data is crucial. For instance, in financial applications where precision matters, these data types are invaluable.
+
+Here is an example:
+
+CREATE TABLE Employees (
+    ID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Salary DECIMAL(10,2)
+);
+SQL
+In the above example, the 'Salary' column will store numbers with up to 10 digits in total, of which 2 digits are after the decimal point.
