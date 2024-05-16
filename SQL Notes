@@ -1,0 +1,81 @@
+/*
+Category (Device Type) Table
+GUID
+CategoryID
+CategoryName
+*/
+
+if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Category'))
+	begin
+		print 'table already exists'
+	end
+else
+	begin
+		print 'creating table Category'
+		use ElectronicsStore
+		create table Category(			
+			CategoryID int identity(1000,1) primary key not null,
+			CategoryName nvarchar(40) not null
+		)
+end
+
+------------------------------------------------------------------
+
+/*
+Product Table
+ProductID 
+*CategoryID
+*LocationID
+ProductName
+CPU
+RAM
+Storage
+OS
+Price
+Description
+IsDefective 
+*/
+
+if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Product'))
+	begin
+		print 'table already exists'
+	end
+else
+	begin
+		print 'creating table Product'
+		use ElectronicsStore
+		create table Product(			
+			ProductID int identity(1000,1) primary key not null,
+			CategoryID
+			LocationID
+			ProductName nvarchar(100)
+			CPU_MB int
+			RAM_MB int
+			Storage_MB int
+			OS nvarchar(40)
+			Price int
+			Description nvarchar(300)
+			IsDefective bit
+		)
+end
+
+
+------------------------------------------------------------------
+/*
+Location Table
+LocationID
+*ManagerID
+*ContactID
+StreetName
+Unit
+City
+State
+Country
+Zip Code
+*/
+
+------------------------------------------------------------------
+
+/*
+
+*/
