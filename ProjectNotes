@@ -61,3 +61,13 @@ Phone
 Email
 Fax
 ContactType (Store, Employee, Etc)
+
+------------------------------------------
+
+VARCHAR — Data is stored in the NLS_CHARACTERSET encoding. If there are other database instances on the same server, you may be restricted by them; and vice versa, since you have to share the setting. 
+Such a field can store any data that can be encoded using that character set, and nothing else. So for example if the character set is MS-1252, you can only store characters like English letters, 
+a handful of accented letters, and a few others (like € and —). Your application would be useful only to a few locales, unable to operate anywhere else in the world. For this reason, it is considered A Bad Idea.
+(Positive is that it might take up less space)
+
+*NVARCHAR — Data is stored in a Unicode encoding. Every language is supported. A Good Idea. ll modern operating systems and development platforms use Unicode internally. By using nvarchar rather than varchar, 
+you can avoid doing encoding conversions every time you read from or write to the database. 
