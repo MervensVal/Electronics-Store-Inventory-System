@@ -46,14 +46,14 @@ else
 		use ElectronicsStore
 		create table Product(			
 			ProductID int identity(1000,1) primary key not null,
-			CategoryID
-			LocationID
+			CategoryID int foreign key references Category(CategoryID)
+			LocationID int foreign key references Location(LocationID)
 			ProductName nvarchar(100)
 			CPU_MB int
 			RAM_MB int
 			Storage_MB int
 			OS nvarchar(40)
-			Price int
+			Price decimal(8,2)
 			Description nvarchar(300)
 			IsDefective bit
 		)
@@ -74,8 +74,51 @@ Country
 Zip Code
 */
 
+if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Location'))
+	begin
+		print 'table already exists'
+	end
+else
+	begin
+		print 'creating table Location'
+		use ElectronicsStore
+		create table Location(			
+			LocationID int identity(1000,1) primary key not null,
+			ManagerName nvarchar(40)
+			ManagerEmail nvarchar(40)
+			ContactID int foreign key references Contact(ContactID)
+			StreetName nvarchar(100)
+			Unit nvarchar(10)
+			City nvarchar(100)
+			State nvarchar(40)
+			Country nvarchar(100)
+			ZipCode nvarchar(10)
+		)
+end
 ------------------------------------------------------------------
 
 /*
-
+Contact Table
+ContactID
+Phone
+Email
+Fax
+ContactType (Store, Employee, Etc)
 */
+
+if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Contact'))
+	begin
+		print 'table already exists'
+	end
+else
+	begin
+		print 'creating table Contact'
+		use ElectronicsStore
+		create table Contact(			
+			ContactID int identity(1000,1) primary key not null,
+			Phone nvarchar(40)
+			Email nvarchar(40)
+			Fax nvarchar(40)
+			ContactType nvarchar(40)
+		)
+end
