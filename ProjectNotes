@@ -22,13 +22,11 @@
 *DB Fields
 
 Category (Device Type) Table
-GUID
 CategoryID
 CategoryName
 
 
 Product Table
-GUID
 ProductID 
 *CategoryID
 *LocationID
@@ -43,7 +41,6 @@ IsDefective
 
 
 Location Table
-GUID
 LocationID
 *ManagerID
 *ContactID
@@ -55,7 +52,6 @@ Country
 Zip Code
 
 Contact Table
-GUID
 ContactID
 Phone
 Email
