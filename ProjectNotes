@@ -29,9 +29,9 @@ CategoryName
 
 Product Table
 GUID
-Product ID 
-CategoryID
-LocationID
+ProductID 
+*CategoryID
+*LocationID
 ProductName
 CPU
 RAM
@@ -45,7 +45,8 @@ IsDefective
 Location Table
 GUID
 LocationID
-ContactID
+*ManagerID
+*ContactID
 StreetName
 Unit
 City
@@ -53,11 +54,10 @@ State
 Country
 Zip Code
 
-
-LocationContact Table
+Contact Table
 GUID
 ContactID
 Phone
 Email
 Fax
-Location Manager Name
+ContactType (Store, Employee, Etc)
