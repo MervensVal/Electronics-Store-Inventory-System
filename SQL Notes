@@ -1,9 +1,6 @@
-/*
-Category (Device Type) Table
-GUID
-CategoryID
-CategoryName
-*/
+/*drop database Electronics_Store
+Create Database Electronics_Store*/
+
 
 --Create_Category_Table = '''
 if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Category'))
@@ -13,12 +10,12 @@ if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' an
 else
 	begin
 		print 'creating table Category'
-		use ElectronicsStore
+		use Electronics_Store
 		create table Category(			
 			CategoryID int identity(1000,1) primary key not null,
 			CategoryName nvarchar(40) not null
 		)
-		insert into Category ('CategoryName') values 
+		insert into Category values 
 		('Phone'),
 		('Laptop'),
 		('Desktop'),
@@ -28,16 +25,6 @@ else
 --'''
 
 
-------------------------------------------------------------------
-/*
-Contact Table
-ContactID
-Phone
-Email
-Fax
-ContactType (Store, Employee, Etc)
-*/
-
 --Create_Contact_Table = '''
 if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Contact'))
 	begin
@@ -46,14 +33,14 @@ if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' an
 else
 	begin
 		print 'creating table Contact'
-		use ElectronicsStore
+		use Electronics_Store
 		create table Contact(			
 			ContactID int identity(1000,1) primary key not null,
-			Phone nvarchar(40)
-			Email nvarchar(40)
+			Phone nvarchar(40),
+			Email nvarchar(40),
 			ContactType nvarchar(40)
 		)
-		insert into Contact ('Phone','Email','ContactType') values
+		insert into Contact values
 		('111-111-1111','one@email.com','LOC'),
 		('222-222-2222','two@email.com','LOC'),
 		('333-333-3333','three@email.com','EMP'),
@@ -61,20 +48,6 @@ else
 		('555-555-5555','five@email.com','EMP')
 	end
 --'''
-------------------------------------------------------------------
-
-/*
-Location Table
-LocationID
-*ManagerID
-*ContactID
-StreetName
-Unit
-City
-State
-Country
-Zip Code
-*/
 
 --Create_Location_Table = '''
 if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Location'))
@@ -84,18 +57,18 @@ if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' an
 else
 	begin
 		print 'creating table Location'
-		use ElectronicsStore
+		use Electronics_Store
 		create table Location(			
 			LocationID int identity(1000,1) primary key not null,
-			ContactID int foreign key references Contact(ContactID)
-			StreetName nvarchar(100)
-			Unit nvarchar(10)
-			City nvarchar(100)
-			State nvarchar(40)
-			Country nvarchar(100)
-			ZipCode nvarchar(10)
+			ContactID int foreign key references Contact(ContactID),
+			StreetName nvarchar(100),
+			Unit nvarchar(10),
+			City nvarchar(100),
+			State nvarchar(40),
+			Country nvarchar(100),
+			ZipCode nvarchar(10),
 		)
-		insert into Location ('ContactID','StreetName','Unit','City','State','Country','ZipCode') values
+		insert into Location (ContactID,StreetName,Unit,City,State,Country,ZipCode) values
 		(1003, '123 A Street','Apt 1','Miami','Florida','United States','33333'),
 		(1002, '315 B Street','','Los Angeles','California','United States','55555'),
 		(1004, '789 C Street','','Nashville','Tenessee','United States','77777'),
@@ -104,24 +77,7 @@ else
 	end
 --'''
 
-------------------------------------------------------------------
-
-/*
-Product Table
-ProductID 
-*CategoryID
-*LocationID
-ProductName
-CPU
-RAM
-Storage
-OS
-Price
-Description
-IsDefective 
-*/
-
-Create_Product_Table = '''
+--Create_Product_Table = '''
 if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Product'))
 	begin
 		print 'table already exists'
@@ -129,21 +85,25 @@ if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' an
 else
 	begin
 		print 'creating table Product'
-		use ElectronicsStore
+		use Electronics_Store
 		create table Product(			
 			ProductID int identity(1000,1) primary key not null,
-			CategoryID int foreign key references Category(CategoryID)
-			LocationID int foreign key references Location(LocationID)
-			ProductName nvarchar(100)
-			CPU_MB int
-			RAM_MB int
-			Storage_MB int
-			OS nvarchar(40)
-			Price decimal(8,2)
-			Description nvarchar(300)
+			CategoryID int foreign key references Category(CategoryID),
+			LocationID int foreign key references Location(LocationID),
+			ProductName nvarchar(100),
+			CPU_MB int,
+			RAM_MB int,
+			Storage_MB int,
+			OS nvarchar(40),
+			Price decimal(8,2),
+			Description nvarchar(300),
 			IsDefective bit
 		)
 end
 
-'''
+--'''
 
+select * from Category
+select * from Contact
+select * from Location
+select * from Product
