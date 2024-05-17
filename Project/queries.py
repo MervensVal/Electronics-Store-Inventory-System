@@ -43,7 +43,12 @@ else
 		('222-222-2222','two@email.com','LOC'),
 		('333-333-3333','three@email.com','EMP'),
 		('444-444-4444','four@email.com','LOC'),
-		('555-555-5555','five@email.com','EMP')
+		('555-555-5555','five@email.com','EMP'),
+		('666-666-6666','six@email.com','EMP'),
+		('777-777-7777','seven@email.com','LOC'),
+		('888-888-8888','eight@email.com','EMP'),
+		('999-999-9999','nine@email.com','LOC'),
+		('1010-101-1010','ten@email.com','EMP')
 	end
 '''
 
@@ -67,11 +72,16 @@ else
 			ZipCode nvarchar(10),
 		)
 		insert into Location (ContactID,StreetName,Unit,City,State,Country,ZipCode) values
-		(1003, '123 A Street','Apt 1','Miami','Florida','United States','33333'),
-		(1002, '315 B Street','','Los Angeles','California','United States','55555'),
-		(1004, '789 C Street','','Nashville','Tenessee','United States','77777'),
-		(1001, '315 B Street','','Los Angeles','California','United States','55555'),
-		(1000, '789 C Street','','Nashville','Tenessee','United States','77777')
+		(1000, '123 A Street','','Miami','Florida','United States','33333'),
+		(1002, '3715 B Street','','Los Angeles','California','United States','55555'),
+		(1003, '789 C Street','','Nashville','Tenessee','United States','77777'),
+		(1004, '3185 B Street','','Los Angeles','California','United States','55555'),
+		(1005, '789 C Street','','Nashville','Tenessee','United States','77777'),		
+		(1006, '8163 A Street','Apt 1','Jacksonville','Florida','United States','22222'),
+		(1007, '74561 B Street','','San Francisco','California','United States','55555'),
+		(1008, '3595 C Street','','Knoxville','Tenessee','United States','77777'),
+		(1009, '315 B Street','','New York City','New York','United States','55555'),
+		(1001, '84786 C Street','','Savanna','Georgia','United States','66666')
 	end
 '''
 
