@@ -14,11 +14,8 @@ else
 			CategoryName nvarchar(40) not null
 		)
 		insert into Category values 
-		('Phone'),
 		('Laptop'),
-		('Desktop'),
-		('Tablet'),
-		('Watch')
+		('Desktop')
 	end
 '''
 
@@ -36,24 +33,23 @@ else
 			ContactID int identity(1000,1) primary key not null,
 			Phone nvarchar(40),
 			Email nvarchar(40),
-			ContactType nvarchar(40)
 		)
-		insert into Contact values
-		('111-111-1111','one@email.com','LOC'),
-		('222-222-2222','two@email.com','LOC'),
-		('333-333-3333','three@email.com','EMP'),
-		('444-444-4444','four@email.com','LOC'),
-		('555-555-5555','five@email.com','EMP'),
-		('666-666-6666','six@email.com','EMP'),
-		('777-777-7777','seven@email.com','LOC'),
-		('888-888-8888','eight@email.com','EMP'),
-		('999-999-9999','nine@email.com','LOC'),
-		('1010-101-1010','ten@email.com','EMP')
+		insert into Contact (Phone,Email) values
+		('111-111-1111','one@email.com'),
+		('222-222-2222','two@email.com'),
+		('333-333-3333','three@email.com'),
+		('444-444-4444','four@email.com'),
+		('555-555-5555','five@email.com'),
+		('666-666-6666','six@email.com'),
+		('777-777-7777','seven@email.com'),
+		('888-888-8888','eight@email.com'),
+		('999-999-9999','nine@email.com'),
+		('1010-101-1010','ten@email.com')
 	end
 '''
 
 Create_Location_Table = '''
-if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Location'))
+	if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Location'))
 	begin
 		print 'table already exists'
 	end
@@ -74,19 +70,19 @@ else
 		insert into Location (ContactID,StreetName,Unit,City,State,Country,ZipCode) values
 		(1000, '123 A Street','','Miami','Florida','United States','33333'),
 		(1002, '3715 B Street','','Los Angeles','California','United States','55555'),
-		(1003, '789 C Street','','Nashville','Tenessee','United States','77777'),
+		(1003, '789 C Road','','Nashville','Tenessee','United States','77777'),
 		(1004, '3185 B Street','','Los Angeles','California','United States','55555'),
-		(1005, '789 C Street','','Nashville','Tenessee','United States','77777'),		
-		(1006, '8163 A Street','Apt 1','Jacksonville','Florida','United States','22222'),
+		(1005, '789 C Street','','Richmond','Virginia','United States','77777'),		
+		(1006, '8163 A Ln','Apt 1','Jacksonville','Florida','United States','22222'),
 		(1007, '74561 B Street','','San Francisco','California','United States','55555'),
-		(1008, '3595 C Street','','Knoxville','Tenessee','United States','77777'),
-		(1009, '315 B Street','','New York City','New York','United States','55555'),
+		(1008, '3595 C Street','','Knoxville','Tenessee','United States','747474'),
+		(1009, '315 B Ave','','New York City','New York','United States','55555'),
 		(1001, '84786 C Street','','Savanna','Georgia','United States','66666')
 	end
 '''
 
 Create_Product_Table = '''
-if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Product'))
+	if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Product'))
 	begin
 		print 'table already exists'
 	end
@@ -99,12 +95,10 @@ else
 			CategoryID int foreign key references Category(CategoryID),
 			LocationID int foreign key references Location(LocationID),
 			ProductName nvarchar(100),
-			CPU_MB int,
+			CPU_GHz int,
 			RAM_MB int,
-			Storage_MB int,
-			OS nvarchar(40),
+			Storage_GB float,
 			Price decimal(8,2),
-			Description nvarchar(300),
 			IsDefective bit
 		)
 end
