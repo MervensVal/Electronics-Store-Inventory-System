@@ -162,41 +162,31 @@ order by l.LocationID asc
 #Report 2 (Total non defective inventory value by category)
 #Pull & Insert data into new table Total_Inventory_Value
 Refresh_Price_Per_Location = '''
-go
+if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'PricePerLocation'))
+	begin
+		drop table PricePerLocation
+	end
+create table PricePerLocation(
+	PricePerLocationID int identity(1000,1) primary key not null,
+	CategoryName nvarchar(40),
+	LocationID int,
+	TotalPrice decimal(14,2)
+)
+insert into PricePerLocation 
+(
+CategoryName,
+LocationID,
+TotalPrice
+)
+select 
+c.CategoryName,
+l.LocationID,
+sum(p.Price)
+from Product p
+left join Category c on c.CategoryID = p.CategoryID
+left join Location l on l.LocationID = p.LocationID
+group by c.CategoryName,l.LocationID
+SET IDENTITY_INSERT PricePerLocation ON 
 
-	create procedure Get_Price_PerLocation
-	as
-	if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'PricePerLocation'))
-		begin
-			drop table PricePerLocation
-		end
-
-	create table PricePerLocation(
-		PricePerLocationID int identity(1000,1) primary key not null,
-		CategoryName nvarchar(40),
-		LocationID int,
-		TotalPrice decimal(14,2)
-	)
-
-	insert into PricePerLocation 
-	(
-	CategoryName,
-	LocationID,
-	TotalPrice
-	)
-	select 
-	c.CategoryName,
-	l.LocationID,
-	sum(p.Price)
-	from Product p
-	left join Category c on c.CategoryID = p.CategoryID
-	left join Location l on l.LocationID = p.LocationID
-	group by c.CategoryName,l.LocationID
-
-	SET IDENTITY_INSERT PricePerLocation ON 
-
-go
-
-drop procedure dbo.Get_Price_PerLocation
 select * from dbo.PricePerLocation
 '''

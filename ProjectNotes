@@ -78,12 +78,10 @@ Project Template/Features
 - Archive Folder
 
 - Product Table will have data that is imported
-- Product Data starts off in a text file
-- Text file data is imported into an excel file
-- If successful the file is placed in Archive
-- Success/Failure Log data is stored in Log file
+- Product Data starts off in a json file
 - Import data into database
 - Success/Failure Log data is stored in Log file
+- If successful file moves to archive folder
 
 - Generate Report1 with full product information
 - Success/Failure Log data is stored in Log file
