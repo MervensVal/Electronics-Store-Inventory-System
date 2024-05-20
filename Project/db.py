@@ -1,9 +1,9 @@
-#Use OOP here.
 
 def Create_Tables():
     pass
 
-def Insert_Products():
+#Pull data from fileWork
+def Insert_Products(Extract_Products_List):
     pass
 
 def Generate_Report1():
