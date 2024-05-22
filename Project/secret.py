@@ -1,1 +1,1 @@
-rootPath = 'C:/Users/valme/Desktop/Python Practice/Electronics-Store-Inventory-System/Project/'
+
