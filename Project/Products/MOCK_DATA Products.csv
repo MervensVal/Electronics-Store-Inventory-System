@@ -1,4 +1,4 @@
-CategoryID,LocationID,ProductName,CPU_GHz,RAM_MB,Storage_GB,Price,IsDefective
+CategoryID,LocationID,ProductName,CPU_GHz,RAM_GB,Storage_GB,Price,IsDefective
 1000,1000,'Alienware Aurora ',2,7,3499,2120.1,0
 1001,1003,'Apple MacBook Air M3 (13-inch) ',3.4,14,2680,853.8,0
 1000,1008,'Lenovo Yoga',3.1,8,689,2115.7,0
