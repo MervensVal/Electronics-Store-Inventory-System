@@ -13,22 +13,33 @@ def Create_Reports_Folder():
 
 #returns list or dictionary of [products objects]
 def Extract_Products():
-    path = DIRECTORY+'Products/'+'MOCK_DATA Products.json'
-    f = open(path)
-    data = json.load(f)
-    for i in data:
-       CategoryID = (str(data[i]['CategoryID']).replace("['","")).replace("']","")
-       LocationID = (str(data[i]['LocationID']).replace("['","")).replace("']","")
-       ProductName = (str(data[i]['ProductName']).replace("['","")).replace("']","")
-       CPU_GHz = (str(data[i]['CPU_GHz']).replace("['","")).replace("']","")
-       RAM_GB = (str(data[i]['RAM_GB']).replace("['","")).replace("']","")
-       Storage_GB = (str(data[i]['Storage_GB']).replace("['","")).replace("']","")
-       Price = (str(data[i]['Price']).replace("['","")).replace("']","")
-       IsDefective = (str(data[i]['IsDefective']).replace("['","")).replace("']","")
+    try:
+        path = DIRECTORY+'Products/'+'MOCK_DATA Products.json'
+        f = open(path)
+        length  = len(f.readlines())
+        f.close()
+        f = open(path)
+        data = json.load(f)
+        
+        lineNumber = 0
+        print('CategoryID   LocationID  ProductName  CPU_GHz  RAM_GB Storage_GB	Price IsDefective')
+        for i in range(length):
+            CategoryID = data[i]['CategoryID']
+            LocationID = data[i]['LocationID']
+            ProductName = str(data[i]['ProductName']).replace("'","")
+            CPU_GHz = data[i]['CPU_GHz']
+            RAM_GB = data[i]['RAM_GB']
+            Storage_GB = data[i]['Storage_GB']
+            Price = data[i]['Price']
+            IsDefective = data[i]['IsDefective']
+            
+            lineNumber = i+1
+            product = p.Product(CategoryID,LocationID,ProductName,CPU_GHz,RAM_GB,Storage_GB,Price,IsDefective)
+            product.DisplayProduct(lineNumber)
+        f.close()
+    except Exception as e:
+        print(e)
 
-       product = p.Product(CategoryID,LocationID,ProductName,CPU_GHz,RAM_GB,Storage_GB,Price,IsDefective)
-       product.DisplayProduct()
-    f.close()
 def Create_Log_Folder():
     pass
 
