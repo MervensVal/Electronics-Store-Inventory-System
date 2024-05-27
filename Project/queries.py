@@ -190,3 +190,12 @@ SET IDENTITY_INSERT PricePerLocation ON
 
 select * from dbo.PricePerLocation
 '''
+
+
+'''
+drop table product
+drop table location
+drop table Contact
+drop table category
+select * from product
+'''
