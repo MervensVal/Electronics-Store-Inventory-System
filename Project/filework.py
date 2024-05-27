@@ -2,6 +2,7 @@ import secret
 import os
 import Product as p
 import json
+import db
 
 DIRECTORY = secret.rootPath
 
@@ -11,7 +12,7 @@ def Create_Reports_Folder():
     if not isExist:
         os.mkdir(path)
 
-#returns list or dictionary of [products objects]
+#returns list of product objects
 def Extract_Products():
     try:
         path = DIRECTORY+'Products/'+'MOCK_DATA Products.json'
@@ -21,8 +22,7 @@ def Extract_Products():
         f = open(path)
         data = json.load(f)
         
-        lineNumber = 0
-        print('CategoryID   LocationID  ProductName  CPU_GHz  RAM_GB Storage_GB	Price IsDefective')
+        products_list = []
         for i in range(length):
             CategoryID = data[i]['CategoryID']
             LocationID = data[i]['LocationID']
@@ -32,11 +32,11 @@ def Extract_Products():
             Storage_GB = data[i]['Storage_GB']
             Price = data[i]['Price']
             IsDefective = data[i]['IsDefective']
-            
-            lineNumber = i+1
             product = p.Product(CategoryID,LocationID,ProductName,CPU_GHz,RAM_GB,Storage_GB,Price,IsDefective)
-            product.DisplayProduct(lineNumber)
+            products_list.append(product)
+        db.Insert_Products(products_list)
         f.close()
+        return products_list
     except Exception as e:
         print(e)
 
