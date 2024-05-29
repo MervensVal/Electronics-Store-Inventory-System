@@ -29,21 +29,27 @@ else:
             cursor.execute(q.Create_Total_Inventory_Value_Table)
             cursor.commit()
             cursor.close()
+            print('Create_Tables Done')
         except Exception as e:
             print('Error creating tables. Rollback Initiated')
             cursor.rollback()
             cursor.close()
             sys.exit()
             
-    #Pull data from fileWork
     def Insert_Products(products_list):
-        cursor = conn.cursor()
-        temp = []
-        for i in products_list:
-            temp = [i.CategoryID,i.LocationID,i.ProductName,i.CPU_GHz,i.RAM_GB,i.Storage_GB,i.Price,i.IsDefective]
-            cursor.execute(q.Insert_Poducts,str(temp))
-            #print(i.CategoryID,i.LocationID,i.ProductName,i.CPU_GHz,i.RAM_GB,i.Storage_GB,i.Price,i.IsDefective)
-        cursor.close()
+        try:
+            cursor = conn.cursor()
+            temp = []
+            for i in products_list:
+                temp = [i.CategoryID,i.LocationID,i.ProductName,i.CPU_GHz,i.RAM_GB,i.Storage_GB,i.Price,i.IsDefective]
+                cursor.execute(q.Insert_Poducts,temp)
+            cursor.commit() 
+            cursor.close()
+            print('Extract_Products Done')
+        except Exception as e:
+            cursor.rollback()
+            cursor.close()
+            print(e)
 
     def Generate_Report1():
         pass

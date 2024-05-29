@@ -95,9 +95,9 @@ else
 			CategoryID int foreign key references Category(CategoryID),
 			LocationID int foreign key references Location(LocationID),
 			ProductName nvarchar(100),
-			CPU_GHz int,
+			CPU_GHz float,
 			RAM_GB int,
-			Storage_GB float,
+			Storage_GB int,
 			Price decimal(8,2),
 			IsDefective bit
 		)
@@ -125,8 +125,8 @@ end
 
 #Number of placeholders matches your table in CSV file format
 Insert_Poducts = '''
-insert into Product({0})
-values({1})
+insert into Product
+values(?,?,?,?,?,?,?,?)
 '''
 
 #Use Stored Procedure
@@ -191,8 +191,8 @@ SET IDENTITY_INSERT PricePerLocation ON
 select * from dbo.PricePerLocation
 '''
 
-
 '''
+--Testing
 drop table product
 drop table location
 drop table Contact

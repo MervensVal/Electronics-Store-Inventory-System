@@ -17,7 +17,7 @@ class Product(FileData):
             self.Storage_GB = Storage_GB
             self.Price = Price
             self.IsDefective = IsDefective
-        
+
         def DisplayProduct(self,lineNumber):
             print(lineNumber,': ',self.CategoryID,' ',self.LocationID,' ',self.ProductName,' ',
                 self.CPU_GHz,' ',self.RAM_GB,' ',self.Storage_GB,' ',self.Price,' ',self.IsDefective)

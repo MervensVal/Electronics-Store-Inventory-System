@@ -12,7 +12,6 @@ def Create_Reports_Folder():
     if not isExist:
         os.mkdir(path)
 
-#returns list of product objects
 def Extract_Products():
     try:
         path = DIRECTORY+'Products/'+'MOCK_DATA Products.json'
@@ -21,7 +20,6 @@ def Extract_Products():
         f.close()
         f = open(path)
         data = json.load(f)
-        
         products_list = []
         for i in range(length):
             CategoryID = data[i]['CategoryID']
@@ -32,19 +30,10 @@ def Extract_Products():
             Storage_GB = data[i]['Storage_GB']
             Price = data[i]['Price']
             IsDefective = data[i]['IsDefective']
-            product = p.Product(CategoryID,LocationID,ProductName,CPU_GHz,RAM_GB,Storage_GB,Price,IsDefective)
+            product = p.Product(CategoryID,LocationID,ProductName,
+                                CPU_GHz,RAM_GB,Storage_GB,Price,IsDefective)
             products_list.append(product)
         db.Insert_Products(products_list)
         f.close()
-        return products_list
     except Exception as e:
         print(e)
-
-def Create_Log_Folder():
-    pass
-
-def Save_Log_Data():
-    pass
-
-def Archive_File():
-    pass

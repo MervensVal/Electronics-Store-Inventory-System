@@ -80,15 +80,10 @@ Project Template/Features
 - Product Table will have data that is imported
 - Product Data starts off in a json file
 - Import data into database
-- Success/Failure Log data is stored in Log file
-- If successful file moves to archive folder
 
 - Generate Report1 with full product information
-- Success/Failure Log data is stored in Log file
 - Generate Report2 with count seperated by category
-- Success/Failure Log data is stored in Log file
 
-- Generate PDF
 - Create Executable file
 
 ------------------------------------------
