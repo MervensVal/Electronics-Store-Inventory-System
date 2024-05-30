@@ -1,6 +1,7 @@
-#Inventory Management System of Electronic Devices
-#Create report folder > 
-create DB Tables > 
+#Inventory Management System of Electronic Devices:
+Create report folder > 
+Create DB Tables > 
 Extract data from JSON > 
-insert into SQL database > 
-generate reports
+Insert into SQL database > 
+Generate reports >
+Generate PDF
