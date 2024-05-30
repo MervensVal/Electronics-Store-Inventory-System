@@ -27,7 +27,7 @@ def Create_Reports_Folder():
             os.mkdir(path)
         print('Create_Reports_Folder created')
     except Exception as e:
-        print('Issue creating file: ',e)
+        print('Error creating reports folder: ',e)
     
 def Extract_Products():
     try:
@@ -53,7 +53,7 @@ def Extract_Products():
         Insert_Products(products_list)
         f.close()
     except Exception as e:
-        print(e)
+        print('Error extracting products from file: ',e)
 
 try:
     conn = odbc.connect(conn_string)
@@ -73,7 +73,7 @@ else:
             cursor.close()
             print('Create_Tables Done')
         except Exception as e:
-            print('Error creating tables. Rollback Initiated')
+            print('Error creating tables. Rollback Initiated: ',e)
             cursor.rollback()
             cursor.close()
             sys.exit()
@@ -92,7 +92,7 @@ else:
         except Exception as e:
             cursor.rollback()
             cursor.close()
-            print(e)
+            print('Error inserting products into SQL table. Rollback initiated: ',e)
 
     def Generate_Report1():
         try:
@@ -106,9 +106,8 @@ else:
             cursor.close()
             print('Get_Products_Data report created')
         except Exception as e:
-            cursor.rollback()
             cursor.close()
-            print(e)
+            print('Error creating "Get_Products_Data" report',e)
 
     def Generate_Report2():
         try:
@@ -124,4 +123,4 @@ else:
         except Exception as e:
             cursor.rollback()
             cursor.close()
-            print(e)
+            print('Error creating "Get_Products_Data" report',e)
