@@ -95,7 +95,33 @@ else:
             print(e)
 
     def Generate_Report1():
-        pass
+        try:
+            cursor = conn.cursor()
+            with open(DIRECTORY + '/Reports/' + 'Get_Products_Data.csv') as csvfile:
+                cursor.execute(q.Get_Products_Data)
+                csv_writer = csv.writer(csvfile)
+                csv_writer.writerow([i[0] for i in cursor.description]) #write headers
+                csv_writer.writerows(cursor)
+                cursor.commit()
+            cursor.close()
+            print('Get_Products_Data report created')
+        except Exception as e:
+            cursor.rollback()
+            cursor.close()
+            print(e)
 
     def Generate_Report2():
-        pass
+        try:
+            cursor = conn.cursor()
+            with open(DIRECTORY + '/Reports/' + 'Total_Price_Per_Location.csv') as csvfile:
+                cursor.execute(q.Refresh_Price_Per_Location)
+                csv_writer = csv.writer(csvfile)
+                csv_writer.writerow([i[0] for i in cursor.description]) #write headers
+                csv_writer.writerows(cursor)
+                cursor.commit()
+            cursor.close()
+            print('Total_Price_Per_Location report created')
+        except Exception as e:
+            cursor.rollback()
+            cursor.close()
+            print(e)
