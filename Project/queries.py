@@ -1,5 +1,3 @@
-
-
 Create_Category_Table = '''
 if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Category'))
 	begin
@@ -102,7 +100,6 @@ else
 			IsDefective bit
 		)
 end
-
 '''
 
 Create_Total_Inventory_Value_Table = '''
@@ -129,14 +126,20 @@ insert into Product
 values(?,?,?,?,?,?,?,?)
 '''
 
-#Use Stored Procedure
 #Report 1 (Product details from all tables)
 Get_Products_Data = '''
-with Active_Products as (
-select * 
+create table #temp (ProductID int)
+
+insert into #temp (ProductID)
+select ProductID
 from Product p 
 where IsDefective = 0
-or IsDefective is null
+or IsDefective is null;
+
+with Active_Products as (
+select top 10 percent ProductID
+from Product p
+order by Price desc
 )
 select 
 c.CategoryName,
@@ -146,21 +149,22 @@ p.CPU_GHz,
 p.RAM_GB,
 p.Storage_GB,
 l.StreetName, 
-isnull(replace(l.Unit,'',null),'N/A') as Unit,
-l.City,l.State,
-l.Country,
-l.ZipCode,
+--isnull(replace(l.Unit,'',null),'N/A') as Unit,
+l.LocationID,
 co.Email,
 co.Phone
-from Active_Products p 
+from Product p
+join Active_Products ap on ap.ProductID = p.ProductID
+join #temp t on p.ProductID = t.ProductID
 Join Category c on p.CategoryID = c.CategoryID
 join Location l on p.LocationID = l.LocationID
 join Contact co on l.ContactID = co.ContactID
-order by l.LocationID asc
+order by p.ProductName asc
+
+drop table #temp
 '''
 
 #Report 2 (Total non defective inventory value by category)
-#Pull & Insert data into new table Total_Inventory_Value
 Refresh_Price_Per_Location = '''
 if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'PricePerLocation'))
 	begin

@@ -1,5 +1,4 @@
-import filework as fw
 import db
-
+db.Create_Reports_Folder()
 db.Create_Tables()
-fw.Extract_Products()
+db.Extract_Products()

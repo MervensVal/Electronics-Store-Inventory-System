@@ -1,6 +1,10 @@
 import queries as q
 import pyodbc as odbc
 import sys
+import secret
+import os
+import Product as p
+import json
 
 DRIVER = 'SQL SERVER'
 SERVER_NAME = '(local)'
@@ -12,6 +16,44 @@ Server={SERVER_NAME};
 Database={DATABASE_NAME};
 Trusted_Connection=yes;
 """
+
+DIRECTORY = secret.rootPath
+
+def Create_Reports_Folder():
+    try:
+        path = DIRECTORY + '/Reports'
+        isExist = os.path.exists(path)
+        if not isExist:
+            os.mkdir(path)
+        print('Create_Reports_Folder created')
+    except Exception as e:
+        print('Issue creating file: ',e)
+    
+def Extract_Products():
+    try:
+        path = DIRECTORY+'Products/'+'MOCK_DATA Products.json'
+        f = open(path)
+        length  = len(f.readlines())
+        f.close()
+        f = open(path)
+        data = json.load(f)
+        products_list = []
+        for i in range(length):
+            CategoryID = data[i]['CategoryID']
+            LocationID = data[i]['LocationID']
+            ProductName = str(data[i]['ProductName']).replace("'","")
+            CPU_GHz = data[i]['CPU_GHz']
+            RAM_GB = data[i]['RAM_GB']
+            Storage_GB = data[i]['Storage_GB']
+            Price = data[i]['Price']
+            IsDefective = data[i]['IsDefective']
+            product = p.Product(CategoryID,LocationID,ProductName,
+                                CPU_GHz,RAM_GB,Storage_GB,Price,IsDefective)
+            products_list.append(product)
+        Insert_Products(products_list)
+        f.close()
+    except Exception as e:
+        print(e)
 
 try:
     conn = odbc.connect(conn_string)
@@ -41,7 +83,8 @@ else:
             cursor = conn.cursor()
             temp = []
             for i in products_list:
-                temp = [i.CategoryID,i.LocationID,i.ProductName,i.CPU_GHz,i.RAM_GB,i.Storage_GB,i.Price,i.IsDefective]
+                temp = [i.CategoryID,i.LocationID,i.ProductName,
+                        i.CPU_GHz,i.RAM_GB,i.Storage_GB,i.Price,i.IsDefective]
                 cursor.execute(q.Insert_Poducts,temp)
             cursor.commit() 
             cursor.close()
