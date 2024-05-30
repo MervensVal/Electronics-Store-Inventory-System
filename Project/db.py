@@ -5,6 +5,7 @@ import secret
 import os
 import Product as p
 import json
+from win32com import client 
 
 DRIVER = 'SQL SERVER'
 SERVER_NAME = '(local)'
@@ -83,8 +84,7 @@ else:
             cursor = conn.cursor()
             temp = []
             for i in products_list:
-                temp = [i.CategoryID,i.LocationID,i.ProductName,
-                        i.CPU_GHz,i.RAM_GB,i.Storage_GB,i.Price,i.IsDefective]
+                temp = [i.CategoryID,i.LocationID,i.ProductName,i.CPU_GHz,i.RAM_GB,i.Storage_GB,i.Price,i.IsDefective]
                 cursor.execute(q.Insert_Poducts,temp)
             cursor.commit() 
             cursor.close()
@@ -112,7 +112,8 @@ else:
     def Generate_Report2():
         try:
             cursor = conn.cursor()
-            with open(DIRECTORY + '/Reports/' + 'Total_Price_Per_Location.csv') as csvfile:
+            filedir = DIRECTORY + '/Reports/' + 'Total_Price_Per_Location.csv'
+            with open(filedir) as csvfile:
                 cursor.execute(q.Refresh_Price_Per_Location)
                 csv_writer = csv.writer(csvfile)
                 csv_writer.writerow([i[0] for i in cursor.description]) #write headers
@@ -120,6 +121,12 @@ else:
                 cursor.commit()
             cursor.close()
             print('Total_Price_Per_Location report created')
+           
+            #Convert to PDF [pip install pywin32]
+            excel = client.Dispatch("Excel.Application")
+            sheets = excel.Workbooks.Open(filedir)
+            work_sheets = sheets.Worksheets[0]
+            work_sheets.ExportAsFixedFormat(0,'PDF File Path')
         except Exception as e:
             cursor.rollback()
             cursor.close()
