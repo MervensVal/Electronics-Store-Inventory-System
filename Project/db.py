@@ -1,3 +1,4 @@
+import csv
 import queries as q
 import pyodbc as odbc
 import sys
@@ -26,7 +27,7 @@ def Create_Reports_Folder():
         isExist = os.path.exists(path)
         if not isExist:
             os.mkdir(path)
-        print('Create_Reports_Folder created')
+        print('Reports created')
     except Exception as e:
         print('Error creating reports folder: ',e)
     
@@ -96,14 +97,17 @@ else:
 
     def Generate_Report1():
         try:
+            filedir = DIRECTORY + 'Reports/' + 'Get_Products_Data.csv'
             cursor = conn.cursor()
-            with open(DIRECTORY + '/Reports/' + 'Get_Products_Data.csv') as csvfile:
+            with open(filedir,'w') as csvfile:
                 cursor.execute(q.Get_Products_Data)
                 csv_writer = csv.writer(csvfile)
                 csv_writer.writerow([i[0] for i in cursor.description]) #write headers
                 csv_writer.writerows(cursor)
                 cursor.commit()
             cursor.close()
+            csvfile.close()
+            print('Is csv file Get_Products_Data closed: ',csvfile.closed)
             print('Get_Products_Data report created')
         except Exception as e:
             cursor.close()
@@ -111,23 +115,20 @@ else:
 
     def Generate_Report2():
         try:
+            filedir = DIRECTORY + 'Reports/' + 'Total_Price_Per_Location.csv'
             cursor = conn.cursor()
-            filedir = DIRECTORY + '/Reports/' + 'Total_Price_Per_Location.csv'
-            with open(filedir) as csvfile:
-                cursor.execute(q.Refresh_Price_Per_Location)
+            cursor.execute(q.Refresh_Price_Per_Location)
+            with open(filedir,'w') as csvfile:
+                cursor.execute(q.Get_Price_Per_Location)
                 csv_writer = csv.writer(csvfile)
                 csv_writer.writerow([i[0] for i in cursor.description]) #write headers
                 csv_writer.writerows(cursor)
                 cursor.commit()
             cursor.close()
+            csvfile.close()
+            print('Is csv file Total_Price_Per_Location closed: ',csvfile.closed)
             print('Total_Price_Per_Location report created')
-           
-            #Convert to PDF [pip install pywin32]
-            excel = client.Dispatch("Excel.Application")
-            sheets = excel.Workbooks.Open(filedir)
-            work_sheets = sheets.Worksheets[0]
-            work_sheets.ExportAsFixedFormat(0,'PDF File Path')
         except Exception as e:
             cursor.rollback()
             cursor.close()
-            print('Error creating "Get_Products_Data" report',e)
+            print('Error creating "Total_Price_Per_Location" report',e)

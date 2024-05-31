@@ -73,14 +73,10 @@ you can avoid doing encoding conversions every time you read from or write to th
 Project Template/Features
 
 - Category, Location, and Contact Table will be seeded via sql query
-- Log folder is created
 - Report Folder is created
-- Archive Folder
-
 - Product Table will have data that is imported
 - Product Data starts off in a json file
 - Import data into database
-
 - Generate Report1 with full product information
 - Generate Report2 with count seperated by category
 

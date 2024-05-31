@@ -17,7 +17,6 @@ else
 	end
 '''
 
-
 Create_Contact_Table = '''
 if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Contact'))
 	begin
@@ -120,27 +119,16 @@ else
 end
 '''
 
-#Number of placeholders matches your table in CSV file format
 Insert_Poducts = '''
 insert into Product
 values(?,?,?,?,?,?,?,?)
 '''
 
-#Report 1 (Product details from all tables)
 Get_Products_Data = '''
-create table #temp (ProductID int)
-
-insert into #temp (ProductID)
-select ProductID
-from Product p 
-where IsDefective = 0
-or IsDefective is null;
-
 with Active_Products as (
 select top 10 percent ProductID
 from Product p
-order by Price desc
-)
+order by Price desc)
 select 
 c.CategoryName,
 p.ProductName,
@@ -155,16 +143,14 @@ co.Email,
 co.Phone
 from Product p
 join Active_Products ap on ap.ProductID = p.ProductID
-join #temp t on p.ProductID = t.ProductID
 Join Category c on p.CategoryID = c.CategoryID
 join Location l on p.LocationID = l.LocationID
 join Contact co on l.ContactID = co.ContactID
+where p.IsDefective = 0
+or p.IsDefective is null
 order by p.ProductName asc
-
-drop table #temp
 '''
 
-#Report 2 (Total non defective inventory value by category)
 Refresh_Price_Per_Location = '''
 if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'PricePerLocation'))
 	begin
@@ -177,29 +163,27 @@ create table PricePerLocation(
 	TotalPrice decimal(14,2)
 )
 insert into PricePerLocation 
-(
-CategoryName,
-LocationID,
-TotalPrice
-)
-select 
-c.CategoryName,
-l.LocationID,
-sum(p.Price)
-from Product p
-left join Category c on c.CategoryID = p.CategoryID
-left join Location l on l.LocationID = p.LocationID
-group by c.CategoryName,l.LocationID
-SET IDENTITY_INSERT PricePerLocation ON 
+	(CategoryName,LocationID,TotalPrice)
+	select 
+	c.CategoryName,
+	l.LocationID,
+	sum(p.Price)
+	from Product p
+	left join Category c on c.CategoryID = p.CategoryID
+	left join Location l on l.LocationID = p.LocationID
+	group by c.CategoryName,l.LocationID
+	SET IDENTITY_INSERT PricePerLocation ON 
+'''
 
+Get_Price_Per_Location='''
 select * from dbo.PricePerLocation
 '''
 
 '''
 --Testing
-drop table product
-drop table location
-drop table Contact
-drop table category
-select * from product
+--drop table product
+--drop table location
+--drop table Contact
+--drop table category
+--drop table Total_Inventory_Value
 '''
