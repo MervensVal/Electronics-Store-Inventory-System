@@ -6,7 +6,7 @@ import secret
 import os
 import Product as p
 import json
-from win32com import client 
+from win32com import client
 
 DRIVER = 'SQL SERVER'
 SERVER_NAME = '(local)'
@@ -128,7 +128,19 @@ else:
             csvfile.close()
             print('Is csv file Total_Price_Per_Location closed: ',csvfile.closed)
             print('Total_Price_Per_Location report created')
+            win_filedir = filedir.replace('/','\\')
+            Excel_To_PDF(win_filedir)
+            print('Total_Price_Per_Location converted to PDF')
         except Exception as e:
             cursor.rollback()
             cursor.close()
             print('Error creating "Total_Price_Per_Location" report',e)
+
+    def Excel_To_PDF(excel_file_location):
+        app = client.DispatchEx("Excel.Application")
+        app.Interactive = False
+        app.Visible = False
+        workbook = app.Workbooks.Open(excel_file_location)
+        output = os.path.splitext(excel_file_location)[0]
+        workbook.ActiveSheet.ExportAsFixedFormat(0,output)
+        workbook.Close()

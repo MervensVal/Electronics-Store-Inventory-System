@@ -7,4 +7,4 @@ try:
   db.Generate_Report1()
   db.Generate_Report2()
 except Exception as e:
-  print("Error occured during program execution.")
+  print("Error occured during program execution: ",e)

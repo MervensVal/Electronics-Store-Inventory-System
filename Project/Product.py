@@ -1,4 +1,3 @@
-#Use OOP here.
 class Product():
     try:
         def __init__(self,CategoryID,LocationID,ProductName,CPU_GHz,RAM_GB,Storage_GB,Price,IsDefective):
