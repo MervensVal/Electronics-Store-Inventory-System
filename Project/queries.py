@@ -101,6 +101,16 @@ else
 end
 '''
 
+Create_Index_Product_Table = '''
+if ((select count(object_id) from sys.indexes where name = 'inx_ProductID_ProductName') = 0 
+	and (select count(object_id) from sys.indexes) < 999) 
+	begin
+		Use Electronics_Store
+		create index inx_ProductID_ProductName
+		on dbo.Product (ProductID,ProductName)
+	end
+'''
+
 Create_Total_Inventory_Value_Table = '''
 if(exists (select * from INFORMATION_SCHEMA.TABLES where TABLE_SCHEMA = 'dbo' and TABLE_NAME = 'Total_Inventory_Value'))
 	begin
@@ -181,6 +191,7 @@ select * from dbo.PricePerLocation
 
 '''
 --Testing
+--drop index Product.inx_ProductID_ProductName 
 --drop table product
 --drop table location
 --drop table Contact

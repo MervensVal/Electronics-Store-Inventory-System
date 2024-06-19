@@ -70,6 +70,7 @@ else:
             cursor.execute(q.Create_Contact_Table)
             cursor.execute(q.Create_Location_Table)
             cursor.execute(q.Create_Product_Table)
+            cursor.execute(q.Create_Index_Product_Table)
             cursor.execute(q.Create_Total_Inventory_Value_Table)
             cursor.commit()
             cursor.close()
