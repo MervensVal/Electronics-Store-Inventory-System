@@ -33,7 +33,7 @@ def Create_Reports_Folder():
     
 def Extract_Products():
     try:
-        path = DIRECTORY+'Products/'+'MOCK_DATA Products.json'
+        path = DIRECTORY+'Project/Products/'+'MOCK_DATA Products.json'
         f = open(path)
         length  = len(f.readlines())
         f.close()
