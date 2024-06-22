@@ -135,7 +135,7 @@ values(?,?,?,?,?,?,?,?)
 '''
 
 Get_Products_Data = '''
-with Active_Products as (
+/*with Active_Products as (
 select top 10 percent ProductID
 from Product p
 order by Price desc)
@@ -158,7 +158,27 @@ join Location l on p.LocationID = l.LocationID
 join Contact co on l.ContactID = co.ContactID
 where p.IsDefective = 0
 or p.IsDefective is null
-order by p.ProductName asc
+order by p.ProductName asc*/
+
+select
+c.CategoryName,
+p.ProductName,
+p.Price, 
+p.CPU_GHz,
+p.RAM_GB,
+p.Storage_GB,
+l.StreetName, 
+--isnull(replace(l.Unit,'',null),'N/A') as Unit,
+l.LocationID,
+co.Email,
+co.Phone
+from Product p
+Join Category c on p.CategoryID = c.CategoryID
+join Location l on p.LocationID = l.LocationID
+join Contact co on l.ContactID = co.ContactID
+where p.IsDefective = 0
+or p.IsDefective is null
+order by p.Price asc
 '''
 
 Refresh_Price_Per_Location = '''
