@@ -7,6 +7,8 @@ import os
 import Product as p
 import json
 from win32com import client
+import pandas as pd
+import matplotlib.pyplot as plt
 
 DRIVER = 'SQL SERVER'
 SERVER_NAME = '(local)'
@@ -131,17 +133,53 @@ else:
             print('Total_Price_Per_Location report created')
             win_filedir = filedir.replace('/','\\')
             Excel_To_PDF(win_filedir)
+            Compare_Laptop_Desktop(filedir)
             print('Total_Price_Per_Location converted to PDF')
         except Exception as e:
-            cursor.rollback()
-            cursor.close()
-            print('Error creating "Total_Price_Per_Location" report',e)
+            #cursor.rollback()
+            #cursor.close()
+            #print('Error creating "Total_Price_Per_Location" report',e)
+            print(e)
+            pass
 
     def Excel_To_PDF(excel_file_location):
-        app = client.DispatchEx("Excel.Application")
-        app.Interactive = False
-        app.Visible = False
-        workbook = app.Workbooks.Open(excel_file_location)
-        output = os.path.splitext(excel_file_location)[0]
-        workbook.ActiveSheet.ExportAsFixedFormat(0,output)
-        workbook.Close()
+        try:
+            app = client.DispatchEx("Excel.Application")
+            app.Interactive = False
+            app.Visible = False
+            workbook = app.Workbooks.Open(excel_file_location)
+            output = os.path.splitext(excel_file_location)[0]
+            workbook.ActiveSheet.ExportAsFixedFormat(0,output)
+            workbook.Close()
+        except Exception as e: 
+            print('Error generating PDF from Report 2: ', e)
+
+    def Compare_Laptop_Desktop(filedir):
+        data = pd.read_csv(filedir)
+        data_frame = pd.DataFrame(data)
+        
+        df_Desktop = data_frame[data_frame['CategoryName'] == 'Desktop']
+        print('\nDesktop - data frame is:\n',df_Desktop)
+        sum = df_Desktop['TotalPrice'].sum()
+        d_sum_round = round(sum)
+        print(d_sum_round)
+
+        df_Laptop = data_frame[data_frame['CategoryName'] == 'Laptop']
+        print('\nLaptop - data frame is:\n',df_Laptop)
+        sum = df_Laptop['TotalPrice'].sum()
+        l_sum_round = round(sum)
+        print(l_sum_round)
+
+        left = ['one','two']
+        height = [d_sum_round,l_sum_round] #data
+        tick_label = ['Desktop $'+str(d_sum_round),'Laptop $'+str(l_sum_round)]
+        plt.bar(left,
+                height,
+                tick_label = tick_label,
+                width= 0.5,
+                color=['lightblue','deepskyblue']
+                )
+        plt.xlabel('Devices')
+        plt.ylabel('Total Price - $10,000')
+        plt.title('Total Cost Per Device Type')
+        plt.show()
