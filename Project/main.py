@@ -1,5 +1,6 @@
 import db
 import time
+import sys
 
 try:
   start = time.time()
@@ -10,7 +11,11 @@ try:
   db.Generate_Report2()
   db.Excel_To_PDF()
   end = time.time()
-  print('Total report generation execution time: ',round((end-start) * (10**3)), 'ms')
+  print('Total report generation execution time: ',
+        round((end-start) * (10**3)), 'ms', ' || ',
+        round((end-start)), 's')
   db.Compare_Laptop_Desktop()
+  sys.exit()
 except Exception as e:
   print("Error occured during program execution: ",e)
+  sys.exit()

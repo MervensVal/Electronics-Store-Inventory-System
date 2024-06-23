@@ -1,0 +1,6 @@
+#ignore secret.py
+Project/secret.py
+Project/__pycache__
+Reports/Get_Products_Data.csv
+Reports/Total_Price_Per_Location.csv
+Reports/Total_Price_Per_Location.pdf

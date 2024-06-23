@@ -29,35 +29,9 @@ def Create_Reports_Folder():
         isExist = os.path.exists(path)
         if not isExist:
             os.mkdir(path)
-        print('Reports created')
+        print('Reports folder created')
     except Exception as e:
         print('Error creating reports folder: ',e)
-    
-def Extract_Products():
-    try:
-        path = DIRECTORY+'Project/Products/'+'MOCK_DATA Products.json'
-        f = open(path)
-        length  = len(f.readlines())
-        f.close()
-        f = open(path)
-        data = json.load(f)
-        products_list = []
-        for i in range(length):
-            CategoryID = data[i]['CategoryID']
-            LocationID = data[i]['LocationID']
-            ProductName = str(data[i]['ProductName']).replace("'","")
-            CPU_GHz = data[i]['CPU_GHz']
-            RAM_GB = data[i]['RAM_GB']
-            Storage_GB = data[i]['Storage_GB']
-            Price = data[i]['Price']
-            IsDefective = data[i]['IsDefective']
-            product = p.Product(CategoryID,LocationID,ProductName,
-                                CPU_GHz,RAM_GB,Storage_GB,Price,IsDefective)
-            products_list.append(product)
-        Insert_Products(products_list)
-        f.close()
-    except Exception as e:
-        print('Error extracting products from file: ',e)
 
 try:
     conn = odbc.connect(conn_string)
@@ -92,11 +66,12 @@ else:
                 cursor.execute(q.Insert_Poducts,temp)
             cursor.commit() 
             cursor.close()
-            print('Extract_Products Done')
+            print('Products extracted & inserted')
         except Exception as e:
             cursor.rollback()
             cursor.close()
             print('Error inserting products into SQL table. Rollback initiated: ',e)
+            sys.exit()
 
     def Generate_Report1():
         try:
@@ -110,11 +85,13 @@ else:
                 cursor.commit()
             cursor.close()
             csvfile.close()
-            print('Is csv file Get_Products_Data closed: ',csvfile.closed)
+            print('Is csv file Get_Products_Data closed? : ',csvfile.closed)
             print('Get_Products_Data report created')
         except Exception as e:
+            cursor.rollback()
             cursor.close()
             print('Error creating "Get_Products_Data" report',e)
+            sys.exit()
 
     def Generate_Report2():
         try:
@@ -135,6 +112,7 @@ else:
             cursor.rollback()
             cursor.close()
             print('Error creating "Total_Price_Per_Location" report',e)
+            sys.exit()
 
     def Excel_To_PDF():
         try:
@@ -147,9 +125,9 @@ else:
             output = os.path.splitext(excel_file_location)[0]
             workbook.ActiveSheet.ExportAsFixedFormat(0,output)
             workbook.Close()
-            print('Total_Price_Per_Location converted to PDF')
+            print('Total_Price_Per_Location PDF created')
         except Exception as e: 
-            print('Error generating PDF from Report 2: ', e)
+            print('Error generating PDF from Total_Price_Per_Location Report: ', e)
 
     def Compare_Laptop_Desktop():
         try:
@@ -158,13 +136,13 @@ else:
             data_frame = pd.DataFrame(data)
             
             df_Desktop = data_frame[data_frame['CategoryName'] == 'Desktop']
-            print('\nDesktop - data frame is:\n',df_Desktop)
+            #print('\nDesktop - data frame is:\n',df_Desktop)
             sum = df_Desktop['TotalPrice'].sum()
             d_sum_round = round(sum)
             #print(d_sum_round)
 
             df_Laptop = data_frame[data_frame['CategoryName'] == 'Laptop']
-            print('\nLaptop - data frame is:\n',df_Laptop)
+            #print('\nLaptop - data frame is:\n',df_Laptop)
             sum = df_Laptop['TotalPrice'].sum()
             l_sum_round = round(sum)
             #print(l_sum_round)
@@ -184,3 +162,29 @@ else:
             plt.show()
         except Exception as e:
             print('Error creating Bar graph from Report 2',e)
+
+def Extract_Products():
+    try:
+        path = DIRECTORY+'Project/Products/'+'MOCK_DATA Products.json'
+        f = open(path)
+        length  = len(f.readlines())
+        f.close()
+        f = open(path)
+        data = json.load(f)
+        products_list = []
+        for i in range(length):
+            CategoryID = data[i]['CategoryID']
+            LocationID = data[i]['LocationID']
+            ProductName = str(data[i]['ProductName']).replace("'","")
+            CPU_GHz = data[i]['CPU_GHz']
+            RAM_GB = data[i]['RAM_GB']
+            Storage_GB = data[i]['Storage_GB']
+            Price = data[i]['Price']
+            IsDefective = data[i]['IsDefective']
+            product = p.Product(CategoryID,LocationID,ProductName,
+                                CPU_GHz,RAM_GB,Storage_GB,Price,IsDefective)
+            products_list.append(product)
+        Insert_Products(products_list)
+        f.close()
+    except Exception as e:
+        print('Error extracting products from file: ',e)
